@@ -1,0 +1,16 @@
+{
+  "last_builds": [
+    {
+      "name": "FacilityManager_0.4.2_WinServer",
+      "url": "http://github.com",
+      "run_file": "Facility Manager.exe"
+    },
+    {
+      "name": "FacilityManager_0.4.2_LinuxServer",
+      "url": "http://github.com",
+      "run_file": "Facility Manager.x86_64"
+    }
+  ],
+
+  "last_version": "0.4.2"
+}
