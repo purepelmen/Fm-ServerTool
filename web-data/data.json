@@ -3,11 +3,13 @@
     {
       "name": "FacilityManager_0.4.2_WinServer",
       "url": "http://github.com",
+      "operating_system": "Windows",
       "run_file": "Facility Manager.exe"
     },
     {
       "name": "FacilityManager_0.4.2_LinuxServer",
       "url": "http://github.com",
+      "operating_system": "Linux",
       "run_file": "Facility Manager.x86_64"
     }
   ],

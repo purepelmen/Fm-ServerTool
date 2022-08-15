@@ -5,7 +5,7 @@ namespace Fm_ServerTool
 {
     public class ServerSetup
     {
-        public const string DataUrl = "";
+        public const string WebDataUrl = "https://raw.githubusercontent.com/purepelmen/Fm-ServerTool/master/web-data/data.json";
 
         private ArgumentParser _argumentParser;
 
@@ -22,13 +22,14 @@ namespace Fm_ServerTool
 
         private WebData FetchWebData()
         {
-            using (HttpClient client = new HttpClient())
-            {
-                string result = client.GetStringAsync(DataUrl).Result;
-                Console.WriteLine(result);
+            Console.WriteLine("Fetching game web data...");
 
-                return JsonConvert.DeserializeObject<WebData>(result) ?? throw new NullReferenceException();
-            }
+            string? result = NetUtils.TryDownloadString(WebDataUrl, out string? errorMessage);
+            if (result == null || errorMessage != null)
+                throw new ProcedureFailureException($"Failed to fetch game web data: {errorMessage}");
+            
+            Console.WriteLine(result);
+            return JsonConvert.DeserializeObject<WebData>(result) ?? throw new NullReferenceException();
         }
     }
 }

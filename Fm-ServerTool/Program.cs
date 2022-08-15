@@ -27,6 +27,11 @@ namespace Fm_ServerTool
                 Console.WriteLine(exception.Message);
                 return -1;
             }
+            catch (ProcedureFailureException exception)
+            {
+                Console.WriteLine(exception.Message);
+                return -1;
+            }
         }
 
         private static int HandleAction(ArgumentParser argumentParser)
