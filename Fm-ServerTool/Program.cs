@@ -44,7 +44,10 @@ namespace Fm_ServerTool
 
             Dictionary<string, Action<ArgumentParser>> actionMap = new Dictionary<string, Action<ArgumentParser>>()
             {
-                { "setup", (argumentParser) => new ServerSetup(argumentParser) }
+                { "setup", (argumentParser) => new ServerSetup(argumentParser) },
+                { "update", (argumentParser) => new ServerUpdate(argumentParser) },
+                { "erase", (argumentParser) => new ServerErase(argumentParser) },
+                { "run", (argumentParser) => new ServerRun(argumentParser) },
             };
 
             string action = argumentParser.Action;
