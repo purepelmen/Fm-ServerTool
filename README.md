@@ -24,3 +24,12 @@ Fm-ServerTool update
 ```sh
 Fm-ServerTool erase
 ```
+
+**Edit server config**
+
+First, run the game to create config from template:
+```sh
+Fm-ServerTool run
+```
+Then, on Windows open folder %appdata%/Facility Manager/ and change the config in the server_config.cfg file.
+On Linux just go to the game folder (FMST_Files/Facility Manager/) and find the server_config.cfg file (in folder Facility Manager_Data/StreamingAssets/).
