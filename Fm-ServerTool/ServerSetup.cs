@@ -1,6 +1,4 @@
 ﻿using Fm_ServerTool.Model;
-using Newtonsoft.Json;
-using System.IO.Compression;
 using System.Runtime.InteropServices;
 
 namespace Fm_ServerTool

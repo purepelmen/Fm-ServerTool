@@ -18,6 +18,18 @@
             _arguments = new Dictionary<string, string>();
         }
 
+        public bool TryGetArgument(string key, out string value)
+        {
+            if (_arguments.TryGetValue(key, out string keyValue))
+            {
+                value = keyValue;
+                return true;
+            }
+
+            value = "";
+            return false;
+        }
+
         public string GetArgument(string key)
         {
             return _arguments[key];
