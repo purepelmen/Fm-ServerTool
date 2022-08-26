@@ -1,35 +1,36 @@
 # Fm-ServerTool
 Facility Manager Server Tool for easy server managment.
 
-# How To
-This section helps with the Fm-ServerTool basics.
-
-
-**Install and prepare game server**
+## Server Setup
+1. Download the latest release of the tool to your server or PC.
+2. Rename the file to something more convenient (for example "fm-tool").
+3. Open command line in the folder where the downloaded file is located and enter this command:
 ```sh
-Fm-ServerTool setup
+fm-tool setup
+```
+4. The tool will ask you to select a version number to install. Select the version (selecting a version with an incompatible platform will not work).
+5. Wait while the tool downloads and prepares the server build.
+6. And then you're done.
+
+## Config editing
+*Precondition: the server must be installed and runned at least once.*
+
+On **Windows** edit this file:
+```
+%appdata%\Facility Manager\server_config.cfg
 ```
 
-**Run game server**
-```sh
-Fm-ServerTool run
+On **Linux** edit this file:
+```
+{the tool file location}/FMST_Files/Facility Manager/Facility Manager_Data/StreamingAssets/server_config.cfg
 ```
 
-**Update server**
+## Server Running
 ```sh
-Fm-ServerTool update
+fm-tool run
 ```
 
-**Erase all server files**
+## Server Updating
 ```sh
-Fm-ServerTool erase
+fm-tool update
 ```
-
-**Edit server config**
-
-First, run the game to create config from template:
-```sh
-Fm-ServerTool run
-```
-Then, on Windows open folder %appdata%/Facility Manager/ and change the config in the server_config.cfg file.
-On Linux just go to the game folder (FMST_Files/Facility Manager/) and find the server_config.cfg file (in folder Facility Manager_Data/StreamingAssets/).
