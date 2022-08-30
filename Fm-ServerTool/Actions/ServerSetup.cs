@@ -1,25 +1,21 @@
 ﻿using Fm_ServerTool.Model;
 using System.Runtime.InteropServices;
 
-namespace Fm_ServerTool
+namespace Fm_ServerTool.Actions
 {
-    public class ServerSetup
+    public class ServerSetup : ICommandActionHandler
     {
         public const string WindowsOs = "Windows";
         public const string LinuxOs = "Linux";
 
-        private ArgumentParser _argumentParser;
         private ServerFiles _files;
 
-        public ServerSetup(ArgumentParser parser)
+        public ServerSetup()
         {
-            _argumentParser = parser;
             _files = new ServerFiles();
-
-            Setup();
         }
 
-        private void Setup()
+        public void Handle(ArgumentParser parser)
         {
             if (IsSetupNotDesired()) return;
             WebData webData = WebDataUtils.Fetch();

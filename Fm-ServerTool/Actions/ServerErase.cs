@@ -1,16 +1,8 @@
-﻿namespace Fm_ServerTool
+﻿namespace Fm_ServerTool.Actions
 {
-    internal class ServerErase
+    public class ServerErase : ICommandActionHandler
     {
-        private ArgumentParser _argumentParser;
-
-        public ServerErase(ArgumentParser argumentParser)
-        {
-            _argumentParser = argumentParser;
-            Erase();
-        }
-
-        private void Erase()
+        public void Handle(ArgumentParser argumentParser)
         {
             ServerFiles files = new ServerFiles();
             if (files.IsBuildInstalled() == false)

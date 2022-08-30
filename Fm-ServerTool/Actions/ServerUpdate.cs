@@ -1,21 +1,17 @@
 ﻿using Fm_ServerTool.Model;
 
-namespace Fm_ServerTool
+namespace Fm_ServerTool.Actions
 {
-    public class ServerUpdate
+    public class ServerUpdate : ICommandActionHandler
     {
-        private ArgumentParser _argumentParser;
         private ServerFiles _files;
 
-        public ServerUpdate(ArgumentParser argumentParser)
+        public ServerUpdate()
         {
-            _argumentParser = argumentParser;
             _files = new ServerFiles();
-
-            Update();
         }
 
-        private void Update()
+        public void Handle(ArgumentParser argumentParser)
         {
             if (_files.IsBuildInstalled() == false)
             {
@@ -33,7 +29,7 @@ namespace Fm_ServerTool
 
             Console.WriteLine($"Downloading last version ({newBuild.Name})...");
             _files.DownloadBuild(newBuild.Url);
-            
+
             Console.WriteLine("Unzipping...");
             _files.UnzipDownloadedBuild();
 

@@ -1,21 +1,17 @@
 ﻿using System.Diagnostics;
 
-namespace Fm_ServerTool
+namespace Fm_ServerTool.Actions
 {
-    internal class ServerRun
+    public class ServerRun : ICommandActionHandler
     {
-        private ArgumentParser _argumentParser;
         private ServerFiles _files;
 
-        public ServerRun(ArgumentParser argumentParser)
+        public ServerRun()
         {
-            _argumentParser = argumentParser;
             _files = new ServerFiles();
-
-            Run();
         }
 
-        private void Run()
+        public void Handle(ArgumentParser parser)
         {
             if (_files.IsBuildInstalled() == false)
             {
