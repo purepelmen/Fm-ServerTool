@@ -1,29 +1,32 @@
 ﻿using System.Diagnostics;
+using Fm_ServerTool.CommandArguments;
 
-namespace Fm_ServerTool
+namespace Fm_ServerTool.Actions
 {
-    internal class ServerRun
+    public class ServerRun : ICommandActionHandler
     {
-        private ArgumentParser _argumentParser;
         private ServerFiles _files;
 
-        public ServerRun(ArgumentParser argumentParser)
+        public ServerRun()
         {
-            _argumentParser = argumentParser;
             _files = new ServerFiles();
-
-            Run();
         }
 
-        private void Run()
+        public void Handle(ArgumentParser parser)
         {
             if (_files.IsBuildInstalled() == false)
             {
-                Console.WriteLine("Server build isn't installed.");
+                Console.WriteLine("Server isn't installed.");
                 return;
             }
 
             string executablePath = _files.GetExecutablePath();
+            if (File.Exists(executablePath) == false)
+            {
+                Console.WriteLine("Server executable file not found. Try to reinstall the server.");
+                return;
+            }
+
             RunExecutable(executablePath);
         }
 

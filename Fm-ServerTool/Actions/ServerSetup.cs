@@ -1,43 +1,33 @@
-﻿using Fm_ServerTool.Model;
+﻿using Fm_ServerTool.CommandArguments;
+using Fm_ServerTool.Model;
 using System.Runtime.InteropServices;
 
-namespace Fm_ServerTool
+namespace Fm_ServerTool.Actions
 {
-    public class ServerSetup
+    public class ServerSetup : ICommandActionHandler
     {
         public const string WindowsOs = "Windows";
         public const string LinuxOs = "Linux";
 
-        private ArgumentParser _argumentParser;
         private ServerFiles _files;
 
-        public ServerSetup(ArgumentParser parser)
+        public ServerSetup()
         {
-            _argumentParser = parser;
             _files = new ServerFiles();
-
-            Setup();
         }
 
-        private void Setup()
+        public void Handle(ArgumentParser parser)
         {
             if (IsSetupNotDesired()) return;
+
             WebData webData = WebDataUtils.Fetch();
-
             Console.WriteLine($"Last game version is {webData.LastVersion}");
+
             GameBuild selectedBuild = AskForDesiredVersion(webData);
+            Console.WriteLine("\n=== Selected Build Information ===");
+            Console.Write(selectedBuild);
 
-            Console.WriteLine($"\nDownloading {selectedBuild.Name}...");
-            _files.DownloadBuild(selectedBuild.Url);
-
-            Console.WriteLine($"Unzipping...");
-            _files.UnzipDownloadedBuild();
-
-            Console.WriteLine($"Saving build information...");
-            _files.SaveBuildInfo(selectedBuild);
-
-            Console.WriteLine($"Deleting temportary file...");
-            _files.RemoveTemportaryFiles();
+            _files.InstallAndPrepare(selectedBuild);
         }
 
         private bool IsSetupNotDesired()
@@ -47,16 +37,14 @@ namespace Fm_ServerTool
                 Console.WriteLine("Do you really want to setup the server? It will destroy your previous server."
                     + "\nPress Y to continue. Any other key to cancel.");
 
-                ConsoleKeyInfo key = Console.ReadKey();
-                Console.Write("\n\n");
-
+                ConsoleKeyInfo key = Console.ReadKey(true);
                 if (char.ToUpper(key.KeyChar) != 'Y')
                 {
                     Console.WriteLine("Setup canceled.");
                     return true;
                 }
 
-                Console.WriteLine($"Erasing server files...");
+                Console.WriteLine($"Server files will be erased.\n");
                 _files.Erase();
             }
 
@@ -76,13 +64,13 @@ namespace Fm_ServerTool
             Console.Write('\n');
             while (true)
             {
-                string versionInput = Console.ReadLine() ?? "0";
-                versionInput = versionInput.Trim();
+                bool readSuccess = TryReadInt(out int desiredVersion);
+                if (readSuccess == false)
+                {
+                    Console.WriteLine("Invalid number. Try again.");
+                    continue;
+                }
 
-                if (versionInput == "")
-                    versionInput = "0";
-
-                int desiredVersion = Convert.ToInt32(versionInput);
                 if (desiredVersion < 0 || desiredVersion >= webData.LastBuilds.Length)
                 {
                     Console.WriteLine("Selected number < 0 or too big for version index. Try again.");
@@ -96,6 +84,28 @@ namespace Fm_ServerTool
                 }
 
                 return webData.LastBuilds[desiredVersion];
+            }
+        }
+
+        private bool TryReadInt(out int number)
+        {
+            string input = Console.ReadLine() ?? "0";
+            input = input.Trim();
+
+            try
+            {
+                number = Convert.ToInt32(input);
+                return true;
+            }
+            catch (OverflowException)
+            {
+                number = 0;
+                return false;
+            }
+            catch (FormatException)
+            {
+                number = 0;
+                return false;
             }
         }
 

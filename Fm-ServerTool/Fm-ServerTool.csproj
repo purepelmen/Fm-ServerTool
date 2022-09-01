@@ -6,6 +6,8 @@
     <RootNamespace>Fm_ServerTool</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Description>Facility Manager Server Tool for easy server install/update.</Description>
+    <Company>Facility Manager</Company>
   </PropertyGroup>
 
   <ItemGroup>

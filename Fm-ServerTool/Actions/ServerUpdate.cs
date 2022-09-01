@@ -1,25 +1,22 @@
-﻿using Fm_ServerTool.Model;
+﻿using Fm_ServerTool.CommandArguments;
+using Fm_ServerTool.Model;
 
-namespace Fm_ServerTool
+namespace Fm_ServerTool.Actions
 {
-    public class ServerUpdate
+    public class ServerUpdate : ICommandActionHandler
     {
-        private ArgumentParser _argumentParser;
         private ServerFiles _files;
 
-        public ServerUpdate(ArgumentParser argumentParser)
+        public ServerUpdate()
         {
-            _argumentParser = argumentParser;
             _files = new ServerFiles();
-
-            Update();
         }
 
-        private void Update()
+        public void Handle(ArgumentParser argumentParser)
         {
             if (_files.IsBuildInstalled() == false)
             {
-                Console.WriteLine("Version isn't installed");
+                Console.WriteLine("Server isn't installed");
                 return;
             }
 
@@ -27,21 +24,12 @@ namespace Fm_ServerTool
             WebData webData = WebDataUtils.Fetch();
 
             GameBuild newBuild = GetNewestBuild(webData, installedBuild.OperatingSystem);
+            Console.WriteLine("\n=== Update Build Information ===");
+            Console.WriteLine(newBuild);
 
-            Console.WriteLine("Removing current version...");
+            Console.WriteLine("Removing the current version...");
             _files.RemoveBuild();
-
-            Console.WriteLine($"Downloading last version ({newBuild.Name})...");
-            _files.DownloadBuild(newBuild.Url);
-            
-            Console.WriteLine("Unzipping...");
-            _files.UnzipDownloadedBuild();
-
-            Console.WriteLine($"Saving build information...");
-            _files.SaveBuildInfo(newBuild);
-
-            Console.WriteLine($"Deleting temportary file...");
-            _files.RemoveTemportaryFiles();
+            _files.InstallAndPrepare(newBuild);
         }
 
         private GameBuild GetNewestBuild(WebData webData, string operatingSystem)

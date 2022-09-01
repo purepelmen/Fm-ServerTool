@@ -22,22 +22,6 @@ namespace Fm_ServerTool
             Directory.Delete(ServerFilesFolder, true);
         }
 
-        public void SaveBuildInfo(GameBuild build)
-        {
-            File.WriteAllText(BuildInfoFile, JsonConvert.SerializeObject(build));
-        }
-
-        public void RemoveTemportaryFiles()
-        {
-            File.Delete(TempDownloadFile);
-        }
-
-        public string GetExecutablePath()
-        {
-            string executableName = GetBuildInfo().RunnableFile;
-            return GameFolder + executableName;
-        }
-
         public GameBuild GetBuildInfo()
         {
             GameBuild? gameBuild = JsonConvert.DeserializeObject<GameBuild>(File.ReadAllText(BuildInfoFile));
@@ -47,13 +31,39 @@ namespace Fm_ServerTool
             return gameBuild;
         }
 
+        public string GetExecutablePath()
+        {
+            string executableName = GetBuildInfo().RunnableFile;
+            return GameFolder + executableName;
+        }
+
+        public void SaveBuildInfo(GameBuild build)
+        {
+            File.WriteAllText(BuildInfoFile, JsonConvert.SerializeObject(build));
+        }
+
+        public void InstallAndPrepare(GameBuild build)
+        {
+            Console.WriteLine($"\n[1/4] Downloading {build.Name}...");
+            DownloadBuild(build.Url);
+
+            Console.WriteLine($"[2/4] Unzipping...");
+            ZipFile.ExtractToDirectory(TempDownloadFile, GameFolder);
+
+            Console.WriteLine($"[3/4] Saving build information...");
+            SaveBuildInfo(build);
+
+            Console.WriteLine($"[4/4] Removing temportary file...");
+            File.Delete(TempDownloadFile);
+        }
+
         public void RemoveBuild()
         {
             Directory.Delete(GameFolder, true);
             File.Delete(BuildInfoFile);
         }
 
-        public void DownloadBuild(string url)
+        private void DownloadBuild(string url)
         {
             Directory.CreateDirectory(ServerFilesFolder);
 
@@ -65,11 +75,6 @@ namespace Fm_ServerTool
                     stream.CopyTo(fileStream);
                 }
             }
-        }
-
-        public void UnzipDownloadedBuild()
-        {
-            ZipFile.ExtractToDirectory(TempDownloadFile, GameFolder);
         }
     }
 }

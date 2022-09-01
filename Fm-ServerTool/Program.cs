@@ -1,5 +1,5 @@
-﻿using Fm_ServerTool.Model;
-using Newtonsoft.Json;
+﻿using Fm_ServerTool.Actions;
+using Fm_ServerTool.CommandArguments;
 
 namespace Fm_ServerTool
 {
@@ -15,53 +15,34 @@ namespace Fm_ServerTool
                 return 0;
             }
 
-            ArgumentParser argumentParser = new ArgumentParser(args);
+            CommandActionExecuter actionExecuter = new CommandActionExecuter();
+            RegisterAllActions(actionExecuter);
 
-            try
-            {
-                argumentParser.Parse();
-                return HandleAction(argumentParser);
-            }
-            catch (InvalidCommandArgumentException exception)
-            {
-                Console.WriteLine(exception.Message);
-                return -1;
-            }
-            catch (ProcedureFailureException exception)
-            {
-                Console.WriteLine(exception.Message);
-                return -1;
-            }
-        }
-
-        private static int HandleAction(ArgumentParser argumentParser)
-        {
-            if (argumentParser.Action == null)
+            int errorCode = 0;
+            actionExecuter.NoTargetActionErrorOccured += delegate
             {
                 Console.WriteLine($"fm-servertool v{Version} is runned with no target action.");
-                return 0;
-            }
-
-            Dictionary<string, Action<ArgumentParser>> actionMap = new Dictionary<string, Action<ArgumentParser>>()
+            };
+            actionExecuter.UnregistredActionErrorOccured += delegate (string action)
             {
-                { "setup", (argumentParser) => new ServerSetup(argumentParser) },
-                { "update", (argumentParser) => new ServerUpdate(argumentParser) },
-                { "erase", (argumentParser) => new ServerErase(argumentParser) },
-                { "run", (argumentParser) => new ServerRun(argumentParser) },
+                Console.WriteLine($"fm-servertool v{Version}: unknown target action '{action}'");
+                errorCode = -1;
+            };
+            actionExecuter.ParsingOrProcedureFailureOccured += delegate
+            {
+                errorCode = -1;
             };
 
-            string action = argumentParser.Action;
-            if (actionMap.TryGetValue(action, out Action<ArgumentParser>? actionHandler))
-            {
-                if (actionHandler == null)
-                    throw new ArgumentNullException();
+            actionExecuter.Execute(args);
+            return errorCode;
+        }
 
-                actionHandler.Invoke(argumentParser);
-                return 0;
-            }
-
-            Console.WriteLine($"fm-servertool v{Version}: unknown target action '{action}'");
-            return -1;
+        private static void RegisterAllActions(CommandActionExecuter actionExecuter)
+        {
+            actionExecuter.RegisterAction("setup", new ServerSetup());
+            actionExecuter.RegisterAction("update", new ServerUpdate());
+            actionExecuter.RegisterAction("erase", new ServerErase());
+            actionExecuter.RegisterAction("run", new ServerRun());
         }
     }
 }
