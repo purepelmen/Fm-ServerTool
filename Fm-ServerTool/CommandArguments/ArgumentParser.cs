@@ -1,4 +1,4 @@
-﻿namespace Fm_ServerTool
+﻿namespace Fm_ServerTool.CommandArguments
 {
     public class ArgumentParser
     {

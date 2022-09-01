@@ -1,4 +1,4 @@
-﻿namespace Fm_ServerTool.Actions
+﻿namespace Fm_ServerTool.CommandArguments
 {
     public interface ICommandActionHandler
     {

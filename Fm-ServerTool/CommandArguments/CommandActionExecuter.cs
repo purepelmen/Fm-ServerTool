@@ -1,6 +1,4 @@
-﻿using Fm_ServerTool.Actions;
-
-namespace Fm_ServerTool
+﻿namespace Fm_ServerTool.CommandArguments
 {
     public class CommandActionExecuter
     {
