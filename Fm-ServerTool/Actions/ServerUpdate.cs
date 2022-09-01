@@ -16,7 +16,7 @@ namespace Fm_ServerTool.Actions
         {
             if (_files.IsBuildInstalled() == false)
             {
-                Console.WriteLine("Version isn't installed");
+                Console.WriteLine("Server isn't installed");
                 return;
             }
 
@@ -24,21 +24,12 @@ namespace Fm_ServerTool.Actions
             WebData webData = WebDataUtils.Fetch();
 
             GameBuild newBuild = GetNewestBuild(webData, installedBuild.OperatingSystem);
+            Console.WriteLine("\n=== Update Build Information ===");
+            Console.WriteLine(newBuild);
 
-            Console.WriteLine("Removing current version...");
+            Console.WriteLine("Removing the current version...");
             _files.RemoveBuild();
-
-            Console.WriteLine($"Downloading last version ({newBuild.Name})...");
-            _files.DownloadBuild(newBuild.Url);
-
-            Console.WriteLine("Unzipping...");
-            _files.UnzipDownloadedBuild();
-
-            Console.WriteLine($"Saving build information...");
-            _files.SaveBuildInfo(newBuild);
-
-            Console.WriteLine($"Deleting temportary file...");
-            _files.RemoveTemportaryFiles();
+            _files.InstallAndPrepare(newBuild);
         }
 
         private GameBuild GetNewestBuild(WebData webData, string operatingSystem)

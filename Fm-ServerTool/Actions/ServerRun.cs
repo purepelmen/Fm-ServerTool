@@ -16,11 +16,17 @@ namespace Fm_ServerTool.Actions
         {
             if (_files.IsBuildInstalled() == false)
             {
-                Console.WriteLine("Server build isn't installed.");
+                Console.WriteLine("Server isn't installed.");
                 return;
             }
 
             string executablePath = _files.GetExecutablePath();
+            if (File.Exists(executablePath) == false)
+            {
+                Console.WriteLine("Server executable file not found. Try to reinstall the server.");
+                return;
+            }
+
             RunExecutable(executablePath);
         }
 

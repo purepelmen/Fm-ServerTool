@@ -20,7 +20,7 @@
 
         public bool TryGetArgument(string key, out string value)
         {
-            if (_arguments.TryGetValue(key, out string keyValue))
+            if (_arguments.TryGetValue(key, out string? keyValue))
             {
                 value = keyValue;
                 return true;
@@ -45,7 +45,7 @@
                 Action = _args[_argIndex++];
             }
 
-            while (HasNotParsedArguments())
+            while (AreAllArgumentsParsed() == false)
             {
                 ParseNext();
             }
@@ -57,7 +57,7 @@
 
             if (argKey.StartsWith("--"))
             {
-                if (HasNotParsedArguments() == false)
+                if (AreAllArgumentsParsed())
                     throw new InvalidCommandArgumentException($"Argument {argKey} must have value");
 
                 string argValue = _args[_argIndex++];
@@ -77,9 +77,9 @@
             _arguments.Add(argKey, argValue);
         }
 
-        private bool HasNotParsedArguments()
+        private bool AreAllArgumentsParsed()
         {
-            return _argIndex < _args.Length;
+            return _argIndex >= _args.Length;
         }
     }
 }

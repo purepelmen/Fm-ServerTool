@@ -9,11 +9,11 @@ namespace Fm_ServerTool.Actions
             ServerFiles files = new ServerFiles();
             if (files.IsBuildInstalled() == false)
             {
-                Console.WriteLine("Server build isn't installed.");
+                Console.WriteLine("Server isn't installed.");
                 return;
             }
 
-            Console.WriteLine("Erasing...");
+            Console.WriteLine($"Server files will be erased.");
             files.Erase();
         }
     }

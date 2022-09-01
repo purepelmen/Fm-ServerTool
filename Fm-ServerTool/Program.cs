@@ -15,19 +15,15 @@ namespace Fm_ServerTool
                 return 0;
             }
 
-            int errorCode = 0;
             CommandActionExecuter actionExecuter = new CommandActionExecuter();
+            RegisterAllActions(actionExecuter);
 
-            actionExecuter.RegisterAction("setup", new ServerSetup());
-            actionExecuter.RegisterAction("update", new ServerUpdate());
-            actionExecuter.RegisterAction("erase", new ServerErase());
-            actionExecuter.RegisterAction("run", new ServerRun());
-
+            int errorCode = 0;
             actionExecuter.NoTargetActionErrorOccured += delegate
             {
                 Console.WriteLine($"fm-servertool v{Version} is runned with no target action.");
             };
-            actionExecuter.UnregistredActionErrorOccured += delegate(string action)
+            actionExecuter.UnregistredActionErrorOccured += delegate (string action)
             {
                 Console.WriteLine($"fm-servertool v{Version}: unknown target action '{action}'");
                 errorCode = -1;
@@ -39,6 +35,14 @@ namespace Fm_ServerTool
 
             actionExecuter.Execute(args);
             return errorCode;
+        }
+
+        private static void RegisterAllActions(CommandActionExecuter actionExecuter)
+        {
+            actionExecuter.RegisterAction("setup", new ServerSetup());
+            actionExecuter.RegisterAction("update", new ServerUpdate());
+            actionExecuter.RegisterAction("erase", new ServerErase());
+            actionExecuter.RegisterAction("run", new ServerRun());
         }
     }
 }

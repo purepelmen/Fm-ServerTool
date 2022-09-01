@@ -10,11 +10,11 @@ namespace Fm_ServerTool
 
         public static WebData Fetch()
         {
-            Console.WriteLine("Fetching game web data...");
+            Console.WriteLine("[WebDataUtils] Fetching up-to-date data...");
 
             string? result = NetUtils.TryDownloadString(Url, out string? errorMessage);
             if (result == null || errorMessage != null)
-                throw new ProcedureFailureException($"Failed to fetch game web data: {errorMessage}");
+                throw new ProcedureFailureException($"Failed to fetch web data: {errorMessage}");
 
             return JsonConvert.DeserializeObject<WebData>(result) ?? throw new NullReferenceException();
         }

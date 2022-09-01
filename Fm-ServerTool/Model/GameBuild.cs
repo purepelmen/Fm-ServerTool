@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Text;
 
 namespace Fm_ServerTool.Model
 {
@@ -24,6 +25,22 @@ namespace Fm_ServerTool.Model
 
             OperatingSystem = operatingSystem;
             RunnableFile = runnableFile;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+
+            builder.Append("Build Name = ");
+            builder.AppendLine(Name);
+
+            builder.Append("Compatible OS = ");
+            builder.AppendLine(OperatingSystem);
+
+            builder.Append("Runnable File = ");
+            builder.AppendLine(RunnableFile);
+
+            return builder.ToString();
         }
     }
 }
