@@ -1,6 +1,18 @@
 {
   "last_builds": [
     {
+      "name": "FacilityManager_0.5_WinServer",
+      "url": "https://drive.google.com/u/0/uc?id=1G2Km4fFEo4yA1ngzk4nugQfLbAYNA0HE&export=download&confirm=t&uuid=b3b3272e-847b-44a1-8eed-aedc6c4b33ec",
+      "operating_system": "Windows",
+      "run_file": "Facility Manager.exe"
+    },
+    {
+      "name": "FacilityManager_0.5_LinuxServer",
+      "url": "https://drive.google.com/u/0/uc?id=1gPa6q1FhpVpZzMMO9i7GUDYfkDWnHoS4&export=download&confirm=t&uuid=c230e7e9-d7e3-4db6-8ed3-3762af46b757",
+      "operating_system": "Linux",
+      "run_file": "Facility Manager.x86_64"
+    },
+    {
       "name": "FacilityManager_0.4.2_WinServer",
       "url": "https://drive.google.com/u/0/uc?id=10On760AYVtpc_1IBKmfbMFmqL6Qy_qk3&export=download&confirm=t&uuid=650a39fe-821f-4ddc-b1d8-1971042280d5",
       "operating_system": "Windows",
