@@ -1,21 +1,21 @@
-﻿using Newtonsoft.Json;
-using System.Text;
+﻿using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Fm_ServerTool.Model
 {
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonSourceGenerationOptions(WriteIndented = true)]
     public class GameBuild
     {
-        [JsonProperty(PropertyName = "name")]
+        [JsonPropertyName("name")]
         public string Name { get; private set; }
 
-        [JsonProperty(PropertyName = "url")]
+        [JsonPropertyName("url")]
         public string Url { get; private set; }
 
-        [JsonProperty(PropertyName = "operating_system")]
+        [JsonPropertyName("operating_system")]
         public string OperatingSystem { get; private set; }
 
-        [JsonProperty(PropertyName = "run_file")]
+        [JsonPropertyName("run_file")]
         public string RunnableFile { get; private set; }
 
         public GameBuild(string name, string url, string operatingSystem, string runnableFile)
@@ -31,14 +31,9 @@ namespace Fm_ServerTool.Model
         {
             StringBuilder builder = new StringBuilder();
 
-            builder.Append("Build Name = ");
-            builder.AppendLine(Name);
-
-            builder.Append("Compatible OS = ");
-            builder.AppendLine(OperatingSystem);
-
-            builder.Append("Runnable File = ");
-            builder.AppendLine(RunnableFile);
+            builder.Append("Build Name = ").AppendLine(Name);
+            builder.Append("Compatible OS = ").AppendLine(OperatingSystem);
+            builder.Append("Runnable File = ").AppendLine(RunnableFile);
 
             return builder.ToString();
         }

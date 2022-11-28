@@ -1,6 +1,6 @@
 ﻿using Fm_ServerTool.CommandArguments;
 using Fm_ServerTool.Model;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Fm_ServerTool
 {
@@ -16,7 +16,7 @@ namespace Fm_ServerTool
             if (result == null || errorMessage != null)
                 throw new ProcedureFailureException($"Failed to fetch web data: {errorMessage}");
 
-            return JsonConvert.DeserializeObject<WebData>(result) ?? throw new NullReferenceException();
+            return JsonSerializer.Deserialize<WebData>(result) ?? throw new NullReferenceException();
         }
     }
 }

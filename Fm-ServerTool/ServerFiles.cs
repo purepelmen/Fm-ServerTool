@@ -1,7 +1,7 @@
 ﻿using Fm_ServerTool.Model;
-using Newtonsoft.Json;
 using System.IO.Compression;
 using System.Text;
+using System.Text.Json;
 
 namespace Fm_ServerTool
 {
@@ -25,7 +25,7 @@ namespace Fm_ServerTool
 
         public GameBuild GetBuildInfo()
         {
-            GameBuild? gameBuild = JsonConvert.DeserializeObject<GameBuild>(File.ReadAllText(BuildInfoFile));
+            GameBuild? gameBuild = JsonSerializer.Deserialize<GameBuild>(File.ReadAllText(BuildInfoFile));
             if (gameBuild == null)
                 throw new NullReferenceException();
 
@@ -40,7 +40,7 @@ namespace Fm_ServerTool
 
         public void SaveBuildInfo(GameBuild build)
         {
-            File.WriteAllText(BuildInfoFile, JsonConvert.SerializeObject(build));
+            File.WriteAllText(BuildInfoFile, JsonSerializer.Serialize(build));
         }
 
         public void InstallAndPrepare(GameBuild build)
@@ -49,7 +49,7 @@ namespace Fm_ServerTool
             DownloadBuild(build.Url);
 
             Console.WriteLine($"[2/4] Unzipping...");
-            ZipFile.ExtractToDirectory(TempDownloadFile, GameFolder, Encoding.Unicode);
+            ZipFile.ExtractToDirectory(TempDownloadFile, GameFolder);
 
             Console.WriteLine($"[3/4] Saving build information...");
             SaveBuildInfo(build);

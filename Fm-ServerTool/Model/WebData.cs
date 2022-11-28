@@ -1,14 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Fm_ServerTool.Model
 {
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonSourceGenerationOptions(WriteIndented = true)]
     public class WebData
     {
-        [JsonProperty(PropertyName = "last_builds")]
+        [JsonPropertyName("last_builds")]
         public GameBuild[] LastBuilds { get; private set; }
 
-        [JsonProperty(PropertyName = "last_version")]
+        [JsonPropertyName("last_version")]
         public string LastVersion { get; private set; }
 
         public WebData(string lastVersion, GameBuild[] lastBuilds)
