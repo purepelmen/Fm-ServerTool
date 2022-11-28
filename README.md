@@ -13,14 +13,8 @@ fm-tool setup
 6. And then you're done.
 
 ## Config editing
-*Precondition: the server must be installed and runned at least once.*
-
-On **Windows** edit this file:
-```
-%appdata%\Facility Manager\server_config.cfg
-```
-
-On **Linux** edit this file:
+Before config editing the server must be installed and runned at least once.
+When using server build (with Fm-ServerTool or not) on Windows or Linux, the configuration file can be found here:
 ```
 {the tool file location}/FMST_Files/Facility Manager/Facility Manager_Data/StreamingAssets/server_config.cfg
 ```
