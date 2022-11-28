@@ -1,6 +1,7 @@
 ﻿using Fm_ServerTool.Model;
 using Newtonsoft.Json;
 using System.IO.Compression;
+using System.Text;
 
 namespace Fm_ServerTool
 {
@@ -48,7 +49,7 @@ namespace Fm_ServerTool
             DownloadBuild(build.Url);
 
             Console.WriteLine($"[2/4] Unzipping...");
-            ZipFile.ExtractToDirectory(TempDownloadFile, GameFolder);
+            ZipFile.ExtractToDirectory(TempDownloadFile, GameFolder, Encoding.Unicode);
 
             Console.WriteLine($"[3/4] Saving build information...");
             SaveBuildInfo(build);
