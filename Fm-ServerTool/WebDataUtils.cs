@@ -1,5 +1,4 @@
-﻿using Fm_ServerTool.CommandArguments;
-using Fm_ServerTool.Model;
+﻿using Fm_ServerTool.Model;
 using System.Text.Json;
 
 namespace Fm_ServerTool
@@ -8,15 +7,48 @@ namespace Fm_ServerTool
     {
         public const string Url = "https://raw.githubusercontent.com/purepelmen/Fm-ServerTool/master/web-data/data.json";
 
-        public static WebData Fetch()
+        public static WebData? Fetch()
         {
             Console.WriteLine("[WebDataUtils] Fetching up-to-date data...");
 
-            string? result = NetUtils.TryDownloadString(Url, out string? errorMessage);
-            if (result == null || errorMessage != null)
-                throw new ProcedureFailureException($"Failed to fetch web data: {errorMessage}");
+            string? result = GetString();
+            if (result == null)
+            {
+                return null;
+            }
 
-            return JsonSerializer.Deserialize<WebData>(result) ?? throw new NullReferenceException();
+            try
+            {
+                return JsonSerializer.Deserialize<WebData>(result);
+            }
+            catch (JsonException exception)
+            {
+                Console.WriteLine("[WebDataUtils] Failed to parse JSON from the received web data.");
+                Console.WriteLine($"Error on {exception.LineNumber} line with details: {exception.Message}");
+
+                return null;
+            }
+        }
+
+        private static string? GetString()
+        {
+            HttpClient client = new HttpClient();
+            string? result = null;
+
+            try
+            {
+                result = client.GetStringAsync(Url).Result;
+            }
+            catch (AggregateException exception)
+            {
+                Console.WriteLine($"[WebDataUtils] Failed to fetch web data: {exception.InnerException?.Message}");
+            }
+            finally
+            {
+                client.Dispose();
+            }
+
+            return result;
         }
     }
 }

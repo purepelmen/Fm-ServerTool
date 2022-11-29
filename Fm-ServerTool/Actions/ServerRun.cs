@@ -1,33 +1,23 @@
 ﻿using System.Diagnostics;
 using Fm_ServerTool.CommandArguments;
+using Fm_ServerTool.Model;
 
 namespace Fm_ServerTool.Actions
 {
     public class ServerRun : ICommandActionHandler
     {
-        private ServerFiles _files;
-
-        public ServerRun()
-        {
-            _files = new ServerFiles();
-        }
-
         public void Handle(ArgumentParser parser)
         {
-            if (_files.IsBuildInstalled() == false)
+            ServerFiles server = new ServerFiles();
+            if (server.IsInstalledAndValid == false)
             {
-                Console.WriteLine("Server isn't installed.");
+                Console.WriteLine("Server isn't installed or corrupted. Printing detailed information.");
+                Console.Write(server.ToString());
+
                 return;
             }
 
-            string executablePath = _files.GetExecutablePath();
-            if (File.Exists(executablePath) == false)
-            {
-                Console.WriteLine("Server executable file not found. Try to reinstall the server.");
-                return;
-            }
-
-            RunExecutable(executablePath);
+            RunExecutable(server.GetExecutableFilePath());
         }
 
         private void RunExecutable(string executablePath)
@@ -39,7 +29,7 @@ namespace Fm_ServerTool.Actions
 
             if (process == null)
             {
-                Console.WriteLine("Failed to start game process");
+                Console.WriteLine("Failed to start game process.");
                 return;
             }
 

@@ -5,31 +5,28 @@ namespace Fm_ServerTool.Actions
 {
     public class ServerUpdate : ICommandActionHandler
     {
-        private ServerFiles _files;
-
-        public ServerUpdate()
-        {
-            _files = new ServerFiles();
-        }
-
         public void Handle(ArgumentParser argumentParser)
         {
-            if (_files.IsBuildInstalled() == false)
+            ServerFiles server = new ServerFiles();
+            if (server.IsInstalledAndValid == false)
             {
-                Console.WriteLine("Server isn't installed");
+                Console.WriteLine("Server isn't installed or corrupted. Printing detailed information.");
+                Console.Write(server.ToString());
+
                 return;
             }
 
-            GameBuild installedBuild = _files.GetBuildInfo();
-            WebData webData = WebDataUtils.Fetch();
+            GameBuild installedBuild = server.GetBuildInfo();
+            WebData? webData = WebDataUtils.Fetch();
+            if (webData == null) return;
 
             GameBuild newBuild = GetNewestBuild(webData, installedBuild.OperatingSystem);
             Console.WriteLine("\n=== Update Build Information ===");
             Console.WriteLine(newBuild);
 
             Console.WriteLine("Removing the current version...");
-            _files.RemoveBuild();
-            _files.InstallAndPrepare(newBuild);
+            server.Uninstall();
+            server.Install(newBuild);
         }
 
         private GameBuild GetNewestBuild(WebData webData, string operatingSystem)

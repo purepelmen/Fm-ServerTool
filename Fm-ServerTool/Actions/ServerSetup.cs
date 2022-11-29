@@ -9,30 +9,26 @@ namespace Fm_ServerTool.Actions
         public const string WindowsOs = "Windows";
         public const string LinuxOs = "Linux";
 
-        private ServerFiles _files;
-
-        public ServerSetup()
-        {
-            _files = new ServerFiles();
-        }
-
         public void Handle(ArgumentParser parser)
         {
-            if (IsSetupNotDesired()) return;
+            ServerFiles server = new ServerFiles();
+            if (IsSetupNotDesired(server)) return;
 
-            WebData webData = WebDataUtils.Fetch();
+            WebData? webData = WebDataUtils.Fetch();
+            if (webData == null) return;
+
             Console.WriteLine($"Last game version is {webData.LastVersion}");
 
             GameBuild selectedBuild = AskForDesiredVersion(webData);
             Console.WriteLine("\n=== Selected Build Information ===");
             Console.Write(selectedBuild);
 
-            _files.InstallAndPrepare(selectedBuild);
+            server.Install(selectedBuild);
         }
 
-        private bool IsSetupNotDesired()
+        private bool IsSetupNotDesired(ServerFiles server)
         {
-            if (_files.IsBuildInstalled())
+            if (server.IsInstalled)
             {
                 Console.WriteLine("Do you really want to setup the server? It will destroy your previous server."
                     + "\nPress Y to continue. Any other key to cancel.");
@@ -45,7 +41,7 @@ namespace Fm_ServerTool.Actions
                 }
 
                 Console.WriteLine($"Server files will be erased.\n");
-                _files.Erase();
+                server.Uninstall();
             }
 
             return false;
