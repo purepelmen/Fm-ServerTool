@@ -20,7 +20,13 @@ namespace Fm_ServerTool.Actions
             WebData? webData = WebDataUtils.Fetch();
             if (webData == null) return;
 
-            GameBuild newBuild = GetNewestBuild(webData, installedBuild.OperatingSystem);
+            GameBuild? newBuild = GetNewestBuild(webData, installedBuild.OperatingSystem);
+            if (newBuild == null)
+            {
+                Console.WriteLine("Can't found build for your operating system. Try to clear fm-servertool files.");
+                return;
+            }
+
             Console.WriteLine("\n=== Update Build Information ===");
             Console.WriteLine(newBuild);
 
@@ -29,7 +35,7 @@ namespace Fm_ServerTool.Actions
             server.Install(newBuild);
         }
 
-        private GameBuild GetNewestBuild(WebData webData, string operatingSystem)
+        private GameBuild? GetNewestBuild(WebData webData, string operatingSystem)
         {
             foreach (GameBuild build in webData.LastBuilds)
             {
@@ -37,7 +43,7 @@ namespace Fm_ServerTool.Actions
                     return build;
             }
 
-            throw new ProcedureFailureException("Can't found build for your operating system. Try to clear fm-servertool files.");
+            return null;
         }
     }
 }

@@ -28,8 +28,13 @@ namespace Fm_ServerTool
                 Console.WriteLine($"fm-servertool v{Version}: unknown target action '{action}'");
                 errorCode = -1;
             };
-            actionExecuter.ParsingOrProcedureFailureOccured += delegate
+            actionExecuter.ParsingErrorOccured += delegate (string errorMessage)
             {
+                if (string.IsNullOrWhiteSpace(errorMessage) == false)
+                {
+                    Console.WriteLine(errorMessage);
+                }
+
                 errorCode = -1;
             };
 

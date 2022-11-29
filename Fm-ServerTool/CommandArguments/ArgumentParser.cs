@@ -11,7 +11,7 @@
 
         public ArgumentParser(string[] args)
         {
-            if (args.Length < 1)
+            if (args.Length == 0)
                 throw new ArgumentException("No arguments");
 
             _args = args;
@@ -58,7 +58,7 @@
             if (argKey.StartsWith("--"))
             {
                 if (AreAllArgumentsParsed())
-                    throw new InvalidCommandArgumentException($"Argument {argKey} must have value");
+                    throw new ArgumentParsingException($"Argument {argKey} must have value");
 
                 string argValue = _args[_argIndex++];
                 AddArgument(argKey, argValue);
@@ -66,13 +66,13 @@
                 return;
             }
 
-            throw new InvalidCommandArgumentException("Required argument started with -- or flag started with -");
+            throw new ArgumentParsingException("Required argument started with -- or flag started with -");
         }
 
         private void AddArgument(string argKey, string argValue)
         {
             if (_arguments.ContainsKey(argKey))
-                throw new InvalidCommandArgumentException($"Found second '{argKey}' argument declaration");
+                throw new ArgumentParsingException($"Found second '{argKey}' argument declaration");
 
             _arguments.Add(argKey, argValue);
         }

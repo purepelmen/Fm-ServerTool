@@ -3,7 +3,7 @@
     public class CommandActionExecuter
     {
         public event Action<string>? UnregistredActionErrorOccured;
-        public event Action? ParsingOrProcedureFailureOccured;
+        public event Action<string>? ParsingErrorOccured;
         public event Action? NoTargetActionErrorOccured;
 
         private Dictionary<string, ICommandActionHandler> _actionMap;
@@ -27,15 +27,9 @@
                 argumentParser.Parse();
                 HandleAction(argumentParser);
             }
-            catch (InvalidCommandArgumentException exception)
+            catch (ArgumentParsingException exception)
             {
-                Console.WriteLine(exception.Message);
-                ParsingOrProcedureFailureOccured?.Invoke();
-            }
-            catch (ProcedureFailureException exception)
-            {
-                Console.WriteLine(exception.Message);
-                ParsingOrProcedureFailureOccured?.Invoke();
+                ParsingErrorOccured?.Invoke(exception.Message);
             }
         }
 
