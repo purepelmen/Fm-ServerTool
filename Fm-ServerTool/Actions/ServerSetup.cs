@@ -88,21 +88,14 @@ namespace Fm_ServerTool.Actions
             string input = Console.ReadLine() ?? "0";
             input = input.Trim();
 
-            try
+            if (int.TryParse(input, out int result))
             {
-                number = Convert.ToInt32(input);
+                number = result;
                 return true;
             }
-            catch (OverflowException)
-            {
-                number = 0;
-                return false;
-            }
-            catch (FormatException)
-            {
-                number = 0;
-                return false;
-            }
+
+            number = 0;
+            return false;
         }
 
         private string GetCurrentOs()
