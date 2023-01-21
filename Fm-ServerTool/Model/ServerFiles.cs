@@ -62,13 +62,18 @@ namespace Fm_ServerTool.Model
             Directory.Delete(BaseFolder, true);
         }
 
-        public void Install(GameBuild build)
+        public bool Install(GameBuild build)
         {
             if (IsInstalled)
                 throw new InvalidOperationException("Server is installed. Before installing uninstal it.");
+            
+            Directory.CreateDirectory(BaseFolder);
 
             Console.WriteLine($"\n[1/4] Downloading {build.Name}...");
-            DownloadBuild(build.Url);
+            if (!BuildDownloader.Download(TempDownloadFile, build.Url))
+            {
+                return false;
+            }
 
             Console.WriteLine($"[2/4] Unzipping...");
             ZipFile.ExtractToDirectory(TempDownloadFile, GameFolder);
@@ -80,6 +85,7 @@ namespace Fm_ServerTool.Model
             File.Delete(TempDownloadFile);
 
             Validate();
+            return true;
         }
 
         public override string ToString()
@@ -140,20 +146,6 @@ namespace Fm_ServerTool.Model
             }
 
             State = Validating.Installed;
-        }
-
-        private static void DownloadBuild(string url)
-        {
-            Directory.CreateDirectory(BaseFolder);
-
-            using (HttpClient client = new HttpClient())
-            {
-                Stream stream = client.GetStreamAsync(url).Result;
-                using (FileStream fileStream = new FileStream(TempDownloadFile, FileMode.Create, FileAccess.Write))
-                {
-                    stream.CopyTo(fileStream);
-                }
-            }
         }
     }
 }
