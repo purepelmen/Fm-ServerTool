@@ -1,6 +1,19 @@
 {
   "last_builds": [
     {
+      "name": "FacilityManager_0.5.2_WinServer",
+      "url": "https://drive.google.com/u/0/uc?id=1UBX4fvu6vbPdyXNqFHBqakRc6jnDj6gh&export=download&confirm=t&uuid=62a077bc-cd1f-46e8-ab8c-47becd85838f",
+      "operating_system": "Windows",
+      "run_file": "Facility Manager.exe"
+    },
+    {
+      "name": "FacilityManager_0.5.2_LinuxServer",
+      "url": "https://drive.google.com/u/0/uc?id=1BGZjXOJFk8qQ0RAVdzpz-kX2MGYEInou&export=download&confirm=t&uuid=a9c95819-dabb-4c36-bd14-92b9dbcba9ef",
+      "operating_system": "Linux",
+      "run_file": "Facility Manager.x86_64"
+    },
+
+    {
       "name": "FacilityManager_0.5.1_WinServer",
       "url": "https://drive.google.com/u/0/uc?id=1sGCiobEBCAZxTyx-nWsByhYdWOZuTOnM&export=download&confirm=t&uuid=9aeb652a-f669-463e-8103-2f8ed10cb890",
       "operating_system": "Windows",
@@ -11,21 +24,8 @@
       "url": "https://drive.google.com/u/0/uc?id=1dr0PMQ2Tw5b9n1QCDMKnuchkYpB0_SQt&export=download&confirm=t&uuid=92a1cf26-e742-4672-b758-12d4db38652d",
       "operating_system": "Linux",
       "run_file": "Facility Manager.x86_64"
-    },
-
-    {
-      "name": "FacilityManager_0.5_WinServer",
-      "url": "https://drive.google.com/u/0/uc?id=1G2Km4fFEo4yA1ngzk4nugQfLbAYNA0HE&export=download&confirm=t&uuid=b3b3272e-847b-44a1-8eed-aedc6c4b33ec",
-      "operating_system": "Windows",
-      "run_file": "Facility Manager.exe"
-    },
-    {
-      "name": "FacilityManager_0.5_LinuxServer",
-      "url": "https://drive.google.com/u/0/uc?id=1gPa6q1FhpVpZzMMO9i7GUDYfkDWnHoS4&export=download&confirm=t&uuid=c230e7e9-d7e3-4db6-8ed3-3762af46b757",
-      "operating_system": "Linux",
-      "run_file": "Facility Manager.x86_64"
     }
   ],
 
-  "last_version": "0.5.1"
+  "last_version": "0.5.2"
 }
