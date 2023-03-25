@@ -28,3 +28,4 @@ fm-tool run
 ```sh
 fm-tool update
 ```
+This command will find latest version that is compatible with the installed one.
