@@ -4,9 +4,14 @@ using Fm_ServerTool.Model;
 
 namespace Fm_ServerTool.Actions
 {
-    public class ServerRun : ICommandActionHandler
+    public class ServerRun
     {
-        public void Handle(ArgumentParser parser)
+        public static void Handle(ArgumentParser argumentParser)
+        {
+            new ServerRun().Run();
+        }
+
+        public void Run()
         {
             ServerFiles server = new ServerFiles();
             if (server.IsInstalledAndValid == false)

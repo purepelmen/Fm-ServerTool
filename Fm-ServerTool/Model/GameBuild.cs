@@ -18,13 +18,17 @@ namespace Fm_ServerTool.Model
         [JsonPropertyName("run_file")]
         public string RunnableFile { get; private set; }
 
-        public GameBuild(string name, string url, string operatingSystem, string runnableFile)
+        [JsonPropertyName("config_path")]
+        public string ConfigPath { get; private set; }
+
+        public GameBuild(string name, string url, string operatingSystem, string runnableFile, string configPath)
         {
             Name = name;
             Url = url;
 
             OperatingSystem = operatingSystem;
             RunnableFile = runnableFile;
+            ConfigPath = configPath;
         }
 
         public override string ToString()

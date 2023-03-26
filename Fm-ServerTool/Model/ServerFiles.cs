@@ -9,14 +9,14 @@ namespace Fm_ServerTool.Model
         public enum Validating
         {
             NotInstalled,
-            MissingBuildInfo,
             CorruptedBuildInfo,
             MissingRunnableFile,
-            Installed,
+            Installed
         }
 
         public const string TempDownloadFile = BaseFolder + "download.zip";
         public const string BuildInfoFile = BaseFolder + "build_info.json";
+        public const string BackupConfigFile = BaseFolder + "config_backup.cfg";
 
         public const string GameFolder = BaseFolder + "Facility Manager/";
         public const string BaseFolder = "FMST_Files/";
@@ -53,21 +53,22 @@ namespace Fm_ServerTool.Model
             return _gameBuild;
         }
 
-        public void Uninstall()
+        public void Uninstall(bool backupConfig = false)
         {
             if (IsInstalled == false)
                 throw new InvalidOperationException("Server wasn't installed");
 
             State = Validating.NotInstalled;
-            Directory.Delete(BaseFolder, true);
+
+            TrySaveConfig();
+            Directory.Delete(GameFolder, true);
+            File.Delete(BuildInfoFile);
         }
 
         public bool Install(GameBuild build)
         {
             if (IsInstalled)
                 throw new InvalidOperationException("Server is installed. Before installing uninstal it.");
-            
-            Directory.CreateDirectory(BaseFolder);
 
             Console.WriteLine($"\n[1/4] Downloading {build.Name}...");
             if (!BuildDownloader.Download(TempDownloadFile, build.Url))
@@ -85,6 +86,9 @@ namespace Fm_ServerTool.Model
             File.Delete(TempDownloadFile);
 
             Validate();
+
+            Console.WriteLine($"[Post-process] Trying to restore config file if possible...");
+            TryRestoreConfig();
             return true;
         }
 
@@ -108,14 +112,11 @@ namespace Fm_ServerTool.Model
             State = Validating.NotInstalled;
             _errorBuffer.Clear();
 
-            if (Directory.Exists(BaseFolder) == false)
-                return;
-
+            Directory.CreateDirectory(BaseFolder);
             if (File.Exists(BuildInfoFile) == false)
-            {
-                State = Validating.MissingBuildInfo;
                 return;
-            }
+            if (Directory.Exists(GameFolder) == false)
+                return;
 
             string jsonSource = File.ReadAllText(BuildInfoFile);
             try
@@ -146,6 +147,40 @@ namespace Fm_ServerTool.Model
             }
 
             State = Validating.Installed;
+        }
+
+        private void TrySaveConfig()
+        {
+            if (_gameBuild == null)
+                throw new InvalidOperationException("Server wasn't installed");
+
+            if (!string.IsNullOrWhiteSpace(_gameBuild.ConfigPath))
+            {
+                string configPath = GameFolder + _gameBuild.ConfigPath;
+                if (!File.Exists(configPath))
+                {
+                    Console.WriteLine("Warning: Config file not found. Backup is skipped.");
+                    return;
+                }
+
+                File.Copy(configPath, BackupConfigFile);
+            }
+        }
+
+        private void TryRestoreConfig()
+        {
+            if (_gameBuild == null)
+                throw new InvalidOperationException("Server wasn't installed");
+
+            if (!File.Exists(BackupConfigFile)) return;
+
+            if (!string.IsNullOrWhiteSpace(_gameBuild.ConfigPath))
+            {
+                string configPath = GameFolder + _gameBuild.ConfigPath;
+                if (!File.Exists(configPath)) return;
+
+                File.Copy(BackupConfigFile, configPath);
+            }
         }
     }
 }

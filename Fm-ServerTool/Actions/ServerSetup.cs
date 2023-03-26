@@ -4,12 +4,17 @@ using System.Runtime.InteropServices;
 
 namespace Fm_ServerTool.Actions
 {
-    public class ServerSetup : ICommandActionHandler
+    public class ServerSetup
     {
         public const string WindowsOs = "Windows";
         public const string LinuxOs = "Linux";
 
-        public void Handle(ArgumentParser parser)
+        public static void Handle(ArgumentParser argumentParser)
+        {
+            new ServerSetup().Setup();
+        }
+
+        public void Setup()
         {
             ServerFiles server = new ServerFiles();
             if (IsSetupNotDesired(server)) return;

@@ -3,9 +3,14 @@ using Fm_ServerTool.Model;
 
 namespace Fm_ServerTool.Actions
 {
-    public class ServerUpdate : ICommandActionHandler
+    public class ServerUpdate
     {
-        public void Handle(ArgumentParser argumentParser)
+        public static void Handle(ArgumentParser argumentParser)
+        {
+            new ServerUpdate().Update();
+        }
+
+        public void Update()
         {
             ServerFiles server = new ServerFiles();
             if (server.IsInstalledAndValid == false)
@@ -31,7 +36,7 @@ namespace Fm_ServerTool.Actions
             Console.WriteLine(newBuild);
 
             Console.WriteLine("Removing the current version...");
-            server.Uninstall();
+            server.Uninstall(true);
             server.Install(newBuild);
         }
 

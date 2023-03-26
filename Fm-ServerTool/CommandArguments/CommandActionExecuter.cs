@@ -6,14 +6,14 @@
         public event Action<string>? ParsingErrorOccured;
         public event Action? NoTargetActionErrorOccured;
 
-        private Dictionary<string, ICommandActionHandler> _actionMap;
+        private Dictionary<string, Action<ArgumentParser>> _actionMap;
 
         public CommandActionExecuter()
         {
-            _actionMap = new Dictionary<string, ICommandActionHandler>();
+            _actionMap = new Dictionary<string, Action<ArgumentParser>>();
         }
 
-        public void RegisterAction(string action, ICommandActionHandler handler)
+        public void RegisterAction(string action, Action<ArgumentParser> handler)
         {
             _actionMap.Add(action, handler);
         }
@@ -42,12 +42,12 @@
             }
 
             string action = argumentParser.Action;
-            if (_actionMap.TryGetValue(action, out ICommandActionHandler? actionHandler))
+            if (_actionMap.TryGetValue(action, out Action<ArgumentParser>? actionHandler))
             {
                 if (actionHandler == null)
                     throw new ArgumentNullException();
 
-                actionHandler.Handle(argumentParser);
+                actionHandler.Invoke(argumentParser);
                 return;
             }
 

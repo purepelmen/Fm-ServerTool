@@ -44,10 +44,10 @@ namespace Fm_ServerTool
 
         private static void RegisterAllActions(CommandActionExecuter actionExecuter)
         {
-            actionExecuter.RegisterAction("setup", new ServerSetup());
-            actionExecuter.RegisterAction("update", new ServerUpdate());
-            actionExecuter.RegisterAction("erase", new ServerErase());
-            actionExecuter.RegisterAction("run", new ServerRun());
+            actionExecuter.RegisterAction("setup", ServerSetup.Handle);
+            actionExecuter.RegisterAction("update", ServerUpdate.Handle);
+            actionExecuter.RegisterAction("erase", ServerErase.Handle);
+            actionExecuter.RegisterAction("run", ServerRun.Handle);
         }
     }
 }
