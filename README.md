@@ -29,3 +29,8 @@ fm-tool run
 fm-tool update
 ```
 This command will find latest version that is compatible with the installed one.
+
+Also it's possible to enable auto-updates with this command (updates will be checking every 10 minutes):
+```sh
+fm-tool update -auto-update
+```
