@@ -54,7 +54,13 @@ namespace Fm_ServerTool.Actions
                                  orderby build.VersionInt
                                  select build;
 
-            return sortedFiltered.FirstOrDefault();
+            GameBuild? gameBuild = sortedFiltered.FirstOrDefault();
+            if (gameBuild != null && gameBuild.VersionInt > currentBuild.VersionInt)
+            {
+                return gameBuild;
+            }
+
+            return null;
         }
 
         private GameBuild? GetNewestBuild(WebData webData, string operatingSystem)
