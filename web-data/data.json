@@ -6,7 +6,7 @@
       "operating_system": "Windows",
       "run_file": "Facility Manager.exe",
       "config_path": "Facility Manager_Data/StreamingAssets/server_config.cfg",
-      "version_int": 00050201
+      "version_int": "00050201"
     },
     {
       "name": "FacilityManager_0.5.2.1_LinuxServer",
@@ -14,7 +14,7 @@
       "operating_system": "Linux",
       "run_file": "Facility Manager.x86_64",
       "config_path": "Facility Manager_Data/StreamingAssets/server_config.cfg",
-      "version_int": 00050201
+      "version_int": "00050201"
     },
 
     {
@@ -23,7 +23,7 @@
       "operating_system": "Windows",
       "run_file": "Facility Manager.exe",
       "config_path": "Facility Manager_Data/StreamingAssets/server_config.cfg",
-      "version_int": 00050200
+      "version_int": "00050200"
     },
     {
       "name": "FacilityManager_0.5.2_LinuxServer",
@@ -31,7 +31,7 @@
       "operating_system": "Linux",
       "run_file": "Facility Manager.x86_64",
       "config_path": "Facility Manager_Data/StreamingAssets/server_config.cfg",
-      "version_int": 00050200
+      "version_int": "00050200"
     },
 
     {
@@ -40,7 +40,7 @@
       "operating_system": "Windows",
       "run_file": "Facility Manager.exe",
       "config_path": "Facility Manager_Data/StreamingAssets/server_config.cfg",
-      "version_int": 00050100
+      "version_int": "00050100"
     },
     {
       "name": "FacilityManager_0.5.1_LinuxServer",
@@ -48,7 +48,8 @@
       "operating_system": "Linux",
       "run_file": "Facility Manager.x86_64",
       "config_path": "Facility Manager_Data/StreamingAssets/server_config.cfg",
-      "version_int": 00050100
+      "version_int": "00050100"
+    }
   ],
 
   "last_version": "0.5.2.1"
