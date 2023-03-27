@@ -21,7 +21,7 @@ namespace Fm_ServerTool.Model
         [JsonPropertyName("config_path")]
         public string ConfigPath { get; private set; }
         
-        [JsonPropertyName("version_integer")]
+        [JsonPropertyName("version_int")]
         public int VersionInt { get; private set; }
 
         public GameBuild(string name, string url, string operatingSystem, string runnableFile, string configPath, int versionInt)

@@ -32,7 +32,7 @@ namespace Fm_ServerTool.Actions
             ServerUpdate serverUpdate = new ServerUpdate();
             Process? process = null;
 
-            int delay = 1000 * 10;
+            int delay = 1000 * 60 * 10;
             while (true)
             {
                 if (process == null)
@@ -43,7 +43,8 @@ namespace Fm_ServerTool.Actions
 
                 if (!_autoUpdateEnabled)
                 {
-                    while (true) { Thread.Sleep(1000 * 60); }
+                    process.WaitForExit();
+                    return;
                 }
 
                 Thread.Sleep(delay);
@@ -54,12 +55,17 @@ namespace Fm_ServerTool.Actions
                 {
                     Console.WriteLine("[Auto-update] Found new build. Updating...");
                     process.Kill();
+                    process.WaitForExit();
+                    process.Dispose();
+
                     serverUpdate.Update(files, newestBuild);
 
                     // Re-init to analyze and reload data from disk
                     files = new ServerFiles();
                     // Will re-initialize the process
                     process = null;
+
+                    Console.WriteLine("[Auto-update] Update is completed. Server process wil be started.\n");
                 }
             }
         }
@@ -86,8 +92,6 @@ namespace Fm_ServerTool.Actions
             if (webData == null) return null;
 
             GameBuild? newestBuild = serverUpdate.TryFindNewestBuild(webData, gameBuild);
-            if (newestBuild == null) return null;
-
             return newestBuild;
         }
     }

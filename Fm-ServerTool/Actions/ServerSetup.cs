@@ -46,9 +46,9 @@ namespace Fm_ServerTool.Actions
                 }
 
                 Console.WriteLine($"Server files will be erased.\n");
-                server.Uninstall();
             }
 
+            server.Uninstall();
             return false;
         }
 

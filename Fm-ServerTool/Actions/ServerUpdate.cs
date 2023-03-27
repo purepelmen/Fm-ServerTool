@@ -1,7 +1,5 @@
 ﻿using Fm_ServerTool.CommandArguments;
 using Fm_ServerTool.Model;
-using System;
-using System.Text;
 
 namespace Fm_ServerTool.Actions
 {
@@ -27,10 +25,10 @@ namespace Fm_ServerTool.Actions
             WebData? webData = WebDataUtils.Fetch();
             if (webData == null) return;
 
-            GameBuild? newBuild = GetNewestBuild(webData, installedBuild.OperatingSystem);
+            GameBuild? newBuild = TryFindNewestBuild(webData, installedBuild);
             if (newBuild == null)
             {
-                Console.WriteLine("Can't found build for your operating system. Try to clear fm-servertool files.");
+                Console.WriteLine("No update is available with OS specified in the installed build.");
                 return;
             }
 
@@ -51,24 +49,13 @@ namespace Fm_ServerTool.Actions
         {
             var sortedFiltered = from build in webData.LastBuilds
                                  where build.OperatingSystem == currentBuild.OperatingSystem
-                                 orderby build.VersionInt
+                                 orderby build.VersionInt descending
                                  select build;
 
             GameBuild? gameBuild = sortedFiltered.FirstOrDefault();
             if (gameBuild != null && gameBuild.VersionInt > currentBuild.VersionInt)
             {
                 return gameBuild;
-            }
-
-            return null;
-        }
-
-        private GameBuild? GetNewestBuild(WebData webData, string operatingSystem)
-        {
-            foreach (GameBuild build in webData.LastBuilds)
-            {
-                if (build.OperatingSystem == operatingSystem)
-                    return build;
             }
 
             return null;

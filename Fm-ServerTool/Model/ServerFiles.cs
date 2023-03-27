@@ -55,14 +55,20 @@ namespace Fm_ServerTool.Model
 
         public void Uninstall(bool backupConfig = false)
         {
-            if (IsInstalled == false)
-                throw new InvalidOperationException("Server wasn't installed");
-
             State = Validating.NotInstalled;
+            if (backupConfig)
+            {
+                TrySaveConfig();
+            }
 
-            TrySaveConfig();
-            Directory.Delete(GameFolder, true);
-            File.Delete(BuildInfoFile);
+            if (Directory.Exists(GameFolder))
+            {
+                Directory.Delete(GameFolder, true);
+            }
+            if (File.Exists(BuildInfoFile))
+            {
+                File.Delete(BuildInfoFile);
+            }
         }
 
         public bool Install(GameBuild build)
@@ -177,8 +183,6 @@ namespace Fm_ServerTool.Model
             if (!string.IsNullOrWhiteSpace(_gameBuild.ConfigPath))
             {
                 string configPath = GameFolder + _gameBuild.ConfigPath;
-                if (!File.Exists(configPath)) return;
-
                 File.Copy(BackupConfigFile, configPath, true);
             }
         }
