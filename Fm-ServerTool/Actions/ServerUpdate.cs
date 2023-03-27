@@ -1,5 +1,7 @@
 ﻿using Fm_ServerTool.CommandArguments;
 using Fm_ServerTool.Model;
+using System;
+using System.Text;
 
 namespace Fm_ServerTool.Actions
 {
@@ -32,12 +34,27 @@ namespace Fm_ServerTool.Actions
                 return;
             }
 
+            Update(server, newBuild);
+        }
+
+        public void Update(ServerFiles server, GameBuild newBuild)
+        {
             Console.WriteLine("\n=== Update Build Information ===");
             Console.WriteLine(newBuild);
 
             Console.WriteLine("Removing the current version...");
             server.Uninstall(true);
             server.Install(newBuild);
+        }
+
+        public GameBuild? TryFindNewestBuild(WebData webData, GameBuild currentBuild)
+        {
+            var sortedFiltered = from build in webData.LastBuilds
+                                 where build.OperatingSystem == currentBuild.OperatingSystem
+                                 orderby build.VersionInt
+                                 select build;
+
+            return sortedFiltered.FirstOrDefault();
         }
 
         private GameBuild? GetNewestBuild(WebData webData, string operatingSystem)

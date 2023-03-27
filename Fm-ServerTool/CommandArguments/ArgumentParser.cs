@@ -5,6 +5,7 @@
         public string? Action { get; private set; }
 
         private readonly Dictionary<string, string> _arguments;
+        private readonly List<string> _flags;
         private readonly string[] _args;
 
         private int _argIndex;
@@ -16,6 +17,7 @@
 
             _args = args;
             _arguments = new Dictionary<string, string>();
+            _flags = new List<string>();
         }
 
         public bool TryGetArgument(string key, out string value)
@@ -33,6 +35,11 @@
         public string GetArgument(string key)
         {
             return _arguments[key];
+        }
+
+        public bool HasDefinedFlag(string flagName)
+        {
+            return _flags.Contains(flagName);
         }
 
         public void Parse()
@@ -65,6 +72,11 @@
 
                 return;
             }
+            if (argKey.StartsWith("-"))
+            {
+                AddFlag(argKey);
+                return;
+            }
 
             throw new ArgumentParsingException("Required argument started with -- or flag started with -");
         }
@@ -75,6 +87,14 @@
                 throw new ArgumentParsingException($"Found second '{argKey}' argument declaration");
 
             _arguments.Add(argKey, argValue);
+        }
+
+        private void AddFlag(string flagName)
+        {
+            if (_flags.Contains(flagName))
+                throw new ArgumentParsingException($"Found second '{flagName}' flag declaration");
+
+            _flags.Add(flagName);
         }
 
         private bool AreAllArgumentsParsed()

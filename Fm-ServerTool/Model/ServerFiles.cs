@@ -163,7 +163,7 @@ namespace Fm_ServerTool.Model
                     return;
                 }
 
-                File.Copy(configPath, BackupConfigFile);
+                File.Copy(configPath, BackupConfigFile, true);
             }
         }
 
@@ -179,7 +179,7 @@ namespace Fm_ServerTool.Model
                 string configPath = GameFolder + _gameBuild.ConfigPath;
                 if (!File.Exists(configPath)) return;
 
-                File.Copy(BackupConfigFile, configPath);
+                File.Copy(BackupConfigFile, configPath, true);
             }
         }
     }
