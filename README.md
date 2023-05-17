@@ -23,14 +23,13 @@ When using server build (with Fm-ServerTool or not) on Windows or Linux, the con
 ```sh
 fm-tool run
 ```
+Also it's possible to enable auto-updates with this command (updates will be checking every 10 minutes):
+```sh
+fm-tool run -auto-update
+```
 
 ## Server Updating
 ```sh
 fm-tool update
 ```
 This command will find latest version that is compatible with the installed one.
-
-Also it's possible to enable auto-updates with this command (updates will be checking every 10 minutes):
-```sh
-fm-tool update -auto-update
-```
