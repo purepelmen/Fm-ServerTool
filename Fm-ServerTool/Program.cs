@@ -5,7 +5,7 @@ namespace Fm_ServerTool
 {
     public class Program
     {
-        public static readonly string Version = "1.0";
+        public static readonly string Version = "1.1";
 
         public static int Main(string[] args)
         {
