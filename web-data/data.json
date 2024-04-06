@@ -2,7 +2,7 @@
   "last_builds": [
     {
       "name": "FacilityManager_0.5.3_WinServer",
-      "url": "https://github.com/purepelmen/JuiceOS-Kernel32/releases/download/_____test/test.zip",
+      "url": "https://github.com/purepelmen/FM-Server-Builds/releases/download/v0.5.3/0.5.3-Win64.zip",
       "operating_system": "Windows",
       "run_file": "Facility Manager.exe",
       "config_path": "Facility Manager_Data/StreamingAssets/server_config.cfg",
@@ -10,7 +10,7 @@
     },
     {
       "name": "FacilityManager_0.5.3_LinuxServer",
-      "url": "https://github.com/purepelmen/JuiceOS-Kernel32/releases/download/_____test/test.zip",
+      "url": "https://github.com/purepelmen/FM-Server-Builds/releases/download/v0.5.3/0.5.3-Linux64.zip",
       "operating_system": "Linux",
       "run_file": "Facility Manager.x86_64",
       "config_path": "Facility Manager_Data/StreamingAssets/server_config.cfg",
