@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -8,6 +8,7 @@
     <Nullable>enable</Nullable>
     <Description>Facility Manager Server Tool for easy server install/update.</Description>
     <Company>Facility Manager</Company>
+	<Version>1.1</Version>
   </PropertyGroup>
 
 </Project>

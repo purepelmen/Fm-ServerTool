@@ -5,7 +5,15 @@ namespace Fm_ServerTool
 {
     public class Program
     {
-        public static readonly string Version = "1.1";
+        public static readonly string Version;
+
+        static Program()
+        {
+            Version currentAssemblyVersion = typeof(Program).Assembly.GetName().Version
+                ?? throw new InvalidOperationException();
+
+            Version = currentAssemblyVersion.ToString(3);
+        }
 
         public static int Main(string[] args)
         {
