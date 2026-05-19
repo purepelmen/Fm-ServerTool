@@ -10,6 +10,7 @@
     <Company>Facility Manager</Company>
 	<Version>1.1</Version>
     <RollForward>Major</RollForward>
+    <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
 </Project>
