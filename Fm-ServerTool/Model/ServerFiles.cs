@@ -87,7 +87,7 @@ namespace Fm_ServerTool.Model
             ZipFile.ExtractToDirectory(TempDownloadFile, GameFolder);
 
             Console.WriteLine($"[3/4] Saving build information...");
-            File.WriteAllText(BuildInfoFile, JsonSerializer.Serialize(build));
+            File.WriteAllText(BuildInfoFile, JsonSerializer.Serialize(build, ModelJsonContext.Default.GameBuild));
 
             Console.WriteLine($"[4/4] Removing temportary file...");
             File.Delete(TempDownloadFile);
@@ -140,7 +140,7 @@ namespace Fm_ServerTool.Model
             string jsonSource = File.ReadAllText(BuildInfoFile);
             try
             {
-                _gameBuild = JsonSerializer.Deserialize<GameBuild>(jsonSource);
+                _gameBuild = JsonSerializer.Deserialize<GameBuild>(jsonSource, ModelJsonContext.Default.GameBuild);
             }
             catch (JsonException exception)
             {

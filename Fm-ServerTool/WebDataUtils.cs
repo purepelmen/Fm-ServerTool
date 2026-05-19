@@ -19,7 +19,7 @@ namespace Fm_ServerTool
 
             try
             {
-                return JsonSerializer.Deserialize<WebData>(result);
+                return JsonSerializer.Deserialize<WebData>(result, ModelJsonContext.Default.WebData);
             }
             catch (JsonException exception)
             {
