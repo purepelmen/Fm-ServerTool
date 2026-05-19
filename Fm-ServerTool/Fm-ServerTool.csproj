@@ -9,6 +9,7 @@
     <Description>Facility Manager Server Tool for easy server install/update.</Description>
     <Company>Facility Manager</Company>
 	<Version>1.1</Version>
+    <RollForward>Major</RollForward>
   </PropertyGroup>
 
 </Project>
