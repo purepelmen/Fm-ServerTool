@@ -6,7 +6,10 @@
       "operating_system": "Windows",
       "run_file": "Facility Manager.exe",
       "config_path": "Facility Manager_Data/StreamingAssets/server_config.cfg",
-      "version_int": 50300
+      "version_int": 50300,
+      "patches": [
+        "FIX_MONO_TERM_BUG"
+      ]
     },
     {
       "name": "FacilityManager_0.5.3_LinuxServer",
@@ -14,7 +17,10 @@
       "operating_system": "Linux",
       "run_file": "Facility Manager.x86_64",
       "config_path": "Facility Manager_Data/StreamingAssets/server_config.cfg",
-      "version_int": 50300
+      "version_int": 50300,
+      "patches": [
+        "FIX_MONO_TERM_BUG"
+      ]
     }
   ],
 
