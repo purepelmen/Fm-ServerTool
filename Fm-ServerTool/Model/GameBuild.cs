@@ -7,32 +7,25 @@ namespace Fm_ServerTool.Model
     public class GameBuild
     {
         [JsonPropertyName("name")]
-        public string Name { get; private set; }
+        public string Name { get; init; }
 
         [JsonPropertyName("url")]
-        public string Url { get; private set; }
+        public string Url { get; init; }
 
         [JsonPropertyName("operating_system")]
-        public string OperatingSystem { get; private set; }
+        public string OperatingSystem { get; init; }
 
         [JsonPropertyName("run_file")]
-        public string RunnableFile { get; private set; }
+        public string RunnableFile { get; init; }
 
         [JsonPropertyName("config_path")]
-        public string ConfigPath { get; private set; }
+        public string? ConfigPath { get; init; }
         
         [JsonPropertyName("version_int")]
-        public int VersionInt { get; private set; }
+        public int VersionInt { get; init; }
 
-        public GameBuild(string name, string url, string operatingSystem, string runnableFile, string configPath, int versionInt)
-        {
-            Name = name;
-            Url = url;
-            OperatingSystem = operatingSystem;
-            RunnableFile = runnableFile;
-            ConfigPath = configPath;
-            VersionInt = versionInt;
-        }
+        [JsonPropertyName("patches")]
+        public string[]? Patches { get; init; }
 
         public override string ToString()
         {

@@ -72,11 +72,25 @@ namespace Fm_ServerTool.Actions
 
         private Process? RunExecutable(GameBuild gameBuild, string executablePath)
         {
-            Process? process = Process.Start(new ProcessStartInfo(executablePath)
+            ProcessStartInfo startInfo = new(executablePath)
             {
                 UseShellExecute = false
-            });
+            };
 
+            if (gameBuild.Patches != null)
+            {
+                if (OperatingSystem.IsLinux() && gameBuild.Patches.Contains(Patches.FixMonoTermBug))
+                {
+                    startInfo.Environment.Remove("TERM");
+                }
+                if (gameBuild.Patches.Contains(Patches.ForceHeadlessMode))
+                {
+                    startInfo.ArgumentList.Add("-nographics");
+                    startInfo.ArgumentList.Add("-batchmode");
+                }
+            }
+
+            var process = Process.Start(startInfo);
             if (process == null)
             {
                 Console.WriteLine("Failed to start game process.");

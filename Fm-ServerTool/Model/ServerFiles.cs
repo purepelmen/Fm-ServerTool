@@ -144,7 +144,7 @@ namespace Fm_ServerTool.Model
             }
             catch (JsonException exception)
             {
-                _errorBuffer.AppendLine($"Failed to parse JSON from {BuildInfoFile} file (maybe file is corrupted).");
+                _errorBuffer.AppendLine($"Failed to parse 'game build' JSON from {BuildInfoFile} file (maybe file is corrupted).");
                 _errorBuffer.AppendLine($"Error on {exception.LineNumber} line with details: {exception.Message}");
 
                 State = Validating.CorruptedBuildInfo;
