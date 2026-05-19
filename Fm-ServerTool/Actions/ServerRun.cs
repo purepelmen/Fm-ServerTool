@@ -21,7 +21,7 @@ namespace Fm_ServerTool.Actions
         public void Run()
         {
             ServerFiles files = new ServerFiles();
-            if (files.IsInstalledAndValid == false)
+            if (!files.IsInstalledAndValid)
             {
                 Console.WriteLine("Server isn't installed or corrupted. Printing detailed information.");
                 Console.Write(files.ToString());

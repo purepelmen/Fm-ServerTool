@@ -1,4 +1,5 @@
-﻿using System.IO.Compression;
+﻿using System.Diagnostics;
+using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
 
@@ -95,6 +96,18 @@ namespace Fm_ServerTool.Model
 
             Console.WriteLine($"[Post-process] Trying to restore config file if possible...");
             TryRestoreConfig();
+
+            if (OperatingSystem.IsLinux())
+            {
+                Console.WriteLine($"[Post-process] Marking file as executable...");
+                
+                using var process = Process.Start("chmod", new[] { "+x", GetExecutableFilePath() });
+                process.WaitForExit();
+
+                if (process.ExitCode != 0)
+                    Console.WriteLine("\tWARNING: Failed to execute chmod!");
+            }
+
             return true;
         }
 
